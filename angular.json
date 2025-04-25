@@ -23,6 +23,11 @@
             "assets": [
               {
                 "glob": "**/*",
+                "input": "node_modules/monaco-editor/esm/vs",
+                "output": "/assets/monaco/vs"
+              },
+              {
+                "glob": "**/*",
                 "input": "public"
               }
             ],
