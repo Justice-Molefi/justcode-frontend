@@ -2,8 +2,10 @@
     <div class="header">
         <h1>Just Code</h1>
         <div class="controls">
-            <select class="language-select" id="language">
-                <option value="java">Java</option>
+            <select class="language-select" id="language" [(ngModel)]="selectedLanguage" (change)="onLanguageChange($event)">
+                @for(language of languages; track languages.indexOf(language)){
+                    <option [value]="language">{{ language }}</option>
+                }
             </select>
             <button class="run-button">Run Code</button>
         </div>
