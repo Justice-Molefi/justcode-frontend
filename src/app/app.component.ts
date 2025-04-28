@@ -1,9 +1,11 @@
 import { Component, ElementRef, NgModule, OnInit, ViewChild } from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import * as monaco from 'monaco-editor';
 import { MonacoService } from './services/editor/monaco.service';
 import { Languages } from './models/enums/languages';
 import { LanguageService } from './services/language/language.service';
+
+// @ts-ignore
+import { conf as javaConf, language as javaLanguage } from 'monaco-editor/esm/vs/basic-languages/java/java';
 
 
 @Component({
@@ -26,10 +28,14 @@ export class AppComponent implements OnInit {
   async ngOnInit(){
     if (typeof window !== 'undefined') {
       const monaco = await import('monaco-editor');
+      
+      monaco.languages.register({ id: 'java' });
+      monaco.languages.setLanguageConfiguration('java', javaConf);
+      monaco.languages.setMonarchTokensProvider('java', javaLanguage);
 
       monaco.editor.create(this.el.nativeElement.querySelector("#editorContainer"), {
         value: this.boilerPlateCode,
-        language: this.selectedLanguage,
+        language: this.selectedLanguage.toLowerCase(),
         theme: 'vs-dark',
         fontSize: 20
       });
