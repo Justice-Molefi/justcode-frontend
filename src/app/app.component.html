@@ -7,14 +7,14 @@
                     <option [value]="language">{{ language }}</option>
                 }
             </select>
-            <button class="run-button">Run Code</button>
+            <button [disabled]="isCodeExecuting" (click)="runCode()" class="run-button">{{ isCodeExecuting ? 'Running...': 'Run Code'}}</button>
         </div>
     </div>
     <div class="main">
         <div id="editorContainer"></div>
         <div class="output-section">
             <label for="output">Output</label>
-            <textarea id="output" readonly placeholder="Output will appear here..."></textarea>
+            <textarea id="output" [value]="codeResults" readonly placeholder="Output will appear here..."></textarea>
         </div>
     </div>
 </div>
