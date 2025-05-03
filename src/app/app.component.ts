@@ -11,7 +11,6 @@ import { CodeRequest } from './models/dto/codeRequest';
 import { EditorWsService } from './services/editor/editorWs.service';
 import { filter, take } from 'rxjs';
 
-
 @Component({
   selector: 'app-root',
   imports: [FormsModule],
@@ -71,14 +70,15 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
     const code: string = this.monacoEditorInstance?.getValue();
-    const codeRequest = new CodeRequest(code, this.selectedLanguage, 3);
+    const storedId = localStorage.getItem('id');
+    const codeRequest = new CodeRequest(code, this.selectedLanguage, 3, storedId);
 
     this.codeResults = "";
     this.isCodeExecuting = true;
 
     this.editorApiService.execute(codeRequest).subscribe({
       next: (val) => {
-        if(!val) console.log("Some bullshit happened");
+        this.storeId(val.toString());
         this.editorWsService.connectionStatus$.pipe(
           filter(connected => connected),
           take(1)
@@ -95,5 +95,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.editorWsService.disconnect();
+  }
+
+  storeId(id: string){
+    const storedId = localStorage.getItem('id');
+    if(!storedId)
+      localStorage.setItem('id', id);
   }
 }
