@@ -88,7 +88,11 @@ export class AppComponent implements OnInit, OnDestroy {
         
         this.editorWsService.connect();
       },
-      error: () => console.error("ERROR ON: Editor API")
+      error: () => {
+        this.isCodeExecuting  = false;
+        this.codeResults += "Something went wrong, please come back later!";
+        console.error("ERROR ON: Editor API");
+      }
     });
   }
 
